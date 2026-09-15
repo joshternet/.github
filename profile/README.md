@@ -22,7 +22,9 @@ A lot of them have interesting personal websites.
 
 So naturally, we needed a protocol.
 
-The Joshternet is an open, decentralized way for people who identify as Josh to declare their Joshness, connect their websites, and make it easier to discover other Joshes around the web.
+The Joshternet is an open, decentralized network for people who identify as Josh and the independent websites they call home.
+
+It lets independently operated sites declare participation and, optionally, Josh identity without moving everyone onto another platform.
 
 It is intentionally built on boring web standards.
 
@@ -32,9 +34,11 @@ Just websites talking to websites.
 
 **Joshness is declared, never derived.**
 
+Project website: [joshternet.org](https://joshternet.org/)
+
 ## How it works
 
-A participating website can publish a Joshternet declaration at:
+A participating origin publishes a Joshternet declaration at:
 
 `/.well-known/josh`
 
@@ -42,13 +46,32 @@ For example:
 
 `https://joshuamorris.info/.well-known/josh`
 
-The file provides a machine-readable declaration that the site participates in the Joshternet.
+The minimum version 1 declaration is:
 
-That does not mean the Joshternet verified that someone is a Josh.
+```json
+{
+  "version": 1
+}
+```
 
-It means that Josh declared their own Joshness.
+Publishing a valid declaration establishes participation for that origin.
 
-Important distinction.
+Josh identity is separate and optional:
+
+```json
+{
+  "version": 1,
+  "josh": true
+}
+```
+
+- `josh: true` means **Affirmed Josh Identity**.
+- `josh: false` means **Declined Josh Identity**.
+- omitting `josh` means **Undeclared Josh Identity**.
+
+Participation does not imply Josh identity, and the protocol does not infer Joshness from a person's name, domain, biography, or website content.
+
+**Joshness is declared, never derived.**
 
 ## The rules
 
@@ -81,35 +104,42 @@ Current drafts:
 
 Nothing has been accepted yet.
 
-The Joshternet is currently in the **PRE-JOSH** phase while we figure out what this thing actually needs to become.
-
 RFCs are added when there is something worth specifying.
 
 We are not reserving RFC numbers just to look organized.
 
-## Implementations
 
-[`joshuamorris.info`](https://joshuamorris.info/) is the first known operational implementation of RFC-JOSH-0002.
+## Current state
 
-Its declaration is here:
+The Joshternet is currently **PRE-JOSH**.
 
-`https://joshuamorris.info/.well-known/josh`
+All three current RFCs are Drafts. None have been Accepted.
 
-Being the first implementation does not make me the boss of the Joshternet.
+Known operational RFC-JOSH-0002 version 1 implementations include:
 
-That would be a fairly serious violation of the whole:
+- [`joshuamorris.info`](https://joshuamorris.info/) — Affirmed Josh Identity
+- [`joshternet.org`](https://joshternet.org/) — Undeclared Josh Identity
 
-**No Josh outranks another Josh.**
+Their declarations are available at:
 
-thing.
+- `https://joshuamorris.info/.well-known/josh`
+- `https://joshternet.org/.well-known/josh`
+
+These implementations demonstrate that participation and Josh identity are separate. Neither implementation is an authority or privileged node.
+
+[JoshBot](https://github.com/joshternet/joshbot) is the Joshternet discovery, verification, and public registry crawler. Its first supported release is [v1.0.0](https://github.com/joshternet/joshbot/releases/tag/v1.0.0).
+
+JoshBot can discover candidate origins, verify their declarations, and produce public registry data. It is implementation infrastructure; it does not define participation or Josh identity.
 
 ## Participate
 
-If you are a Josh and have a website, you can participate.
+If you are a Josh and have a website, you can participate and affirm Josh identity.
 
-If you are not a Josh, you can participate too. You just cannot use the protocol to become a Josh.
+If you are not a Josh, you can participate without being represented as a Josh.
 
-That seems like a reasonable boundary.
+You may also participate while leaving Josh identity undeclared.
+
+The [implementation guide](https://joshternet.org/implement/) explains how to publish a version 1 declaration.
 
 The specifications are public. Issues and pull requests are welcome.
 
@@ -125,7 +155,9 @@ This is still an experiment, and the best way to figure out whether it works is 
 
 ## Repositories
 
-* [`joshternet/spec`](https://github.com/joshternet/spec) - specifications and RFCs
+* [`joshternet/spec`](https://github.com/joshternet/spec) - canonical specifications and RFCs
+* [`joshternet/joshbot`](https://github.com/joshternet/joshbot) - discovery, verification, and public registry crawler
+* [`joshternet/joshternet.github.io`](https://github.com/joshternet/joshternet.github.io) - source for [joshternet.org](https://joshternet.org/)
 * [`joshternet/.github`](https://github.com/joshternet/.github) - organization profile and shared GitHub configuration
 
 ---
